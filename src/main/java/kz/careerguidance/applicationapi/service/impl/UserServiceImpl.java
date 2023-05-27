@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
   public UserDto findByUsername(String username) {
     return userRepository.findByUsername(username)
         .map(userMapper::toUserDto)
-        .orElseThrow(() -> new NoSuchElementException("User not found by username: " + username));
+        .orElseThrow(() -> new NotFoundException("User not found by username: " + username));
   }
 
   @Override
@@ -119,6 +118,6 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDto findById(Long id) {
     return userMapper.toUserDto(userRepository.findById(id).orElseThrow(
-        () -> new NoSuchElementException("Пользователь с id " + id + " не найден")));
+        () -> new NotFoundException("Пользователь с id " + id + " не найден")));
   }
 }
